@@ -1,20 +1,18 @@
-i = 13
-prime = 6
+def prime?(num)
+  return false if num == 0 || num == 1
+  (2..Math.sqrt(num).to_i).each do |i|
+    return false if num % i == 0
+  end
+  true
+end
 
-while prime != 10_001
+i = 0
+prime = 0
+
+loop do
   i += 1
-  not_prime = false
-  (2..(i - 1)).each do |d|
-    if i % d == 0
-      not_prime = true
-      break
-    end
-  end
-
-  if !not_prime
-    prime += 1
-    #puts "Found prime: #{ i }"
-  end
+  prime += 1 if prime?(i)
+  break if prime == 10_001
 end
 
 puts i
