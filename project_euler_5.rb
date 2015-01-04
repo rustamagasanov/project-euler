@@ -1,16 +1,12 @@
-n = 19
-answer_not_found = true
-
-while answer_not_found
-  n += 1
-  20.downto(1) do |digit|
-    unless n % digit == 0
-      break
-    end
-    if digit == 1
-      answer_not_found = false
+i = 0
+catch(:done) do
+  loop do
+    i += 1
+    20.downto(11) do |digit|
+      break if i % digit != 0
+      throw(:done) if digit == 11
     end
   end
 end
 
-p n
+puts i
