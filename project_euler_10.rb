@@ -11,13 +11,4 @@ def prime?(num)
   true
 end
 
-result = (0..2_000_000).inject do |memo, num|
-  if prime?(num)
-    puts "memo: #{ memo }; num: #{ num }"
-    memo += num
-  else
-    memo
-  end
-end
-
-puts "result = #{ result }"
+puts (0..2_000_000).inject { |sum, n| prime?(n) ? sum + n : sum }
