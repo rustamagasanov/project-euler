@@ -29,8 +29,6 @@ def get_factors(number)
   complete_flag = number == 1 || foo(number)
 
   while !complete_flag
-    # puts "num to check: #{num_to_check }"
-    # puts "factors: #{factors}"
     if number % num_to_check == 0
       factors << num_to_check
       factors << number / num_to_check
@@ -45,12 +43,12 @@ triangle_number = 0
 next_digit = 1
 complete_flag = false
 
-while !complete_flag do
+while !complete_flag
   triangle_number += next_digit
   next_digit += 1
 
   factors = get_factors(triangle_number)
-  puts "number: #{ triangle_number } factors: #{ factors.count }" if factors.count > 2 #(#{ factors })"
+  puts "number: #{ triangle_number } factors: #{ factors.count }" if factors.count > 2
 
   if factors.count >= 500
     complete_flag = true
