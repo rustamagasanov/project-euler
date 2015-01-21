@@ -41,16 +41,13 @@ end
 
 triangle_number = 0
 next_digit = 1
-complete_flag = false
 
-while !complete_flag
+loop do
   triangle_number += next_digit
   next_digit += 1
 
   factors = get_factors(triangle_number)
   puts "number: #{ triangle_number } factors: #{ factors.count }" if factors.count > 2
 
-  if factors.count >= 500
-    complete_flag = true
-  end
+  break if factors.count >= 500
 end
