@@ -16,8 +16,9 @@
 #
 #  What is the value of the first triangle number to have over five hundred divisors?
 
+# euristic
 def foo(number)
-  [2, 3, 4, 5].each do |i|
+  [2, 3, 4, 5, 7].each do |i|
     return true if number % i != 0
   end
   false
@@ -45,9 +46,7 @@ next_digit = 1
 loop do
   triangle_number += next_digit
   next_digit += 1
-
   factors = get_factors(triangle_number)
-  puts "number: #{ triangle_number } factors: #{ factors.count }" if factors.count > 2
-
   break if factors.count >= 500
 end
+puts triangle_number
