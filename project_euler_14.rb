@@ -26,7 +26,6 @@ longest_chain_length = 0
 longest_chain = []
 longest_chain_starting_number = 0
 (1..1_000_000).each do |n|
-  puts "current number = #{ n }; current longest chain starting number = #{ longest_chain_starting_number }; current longest chain length = #{ longest_chain_length }"
   chain = collatz_sequence(n)
   chain_length = chain.length
   if chain_length > longest_chain_length
@@ -36,6 +35,4 @@ longest_chain_starting_number = 0
   end
 end
 
-puts "longest chain staring number = #{ longest_chain_starting_number }"
-puts "longest chain length = #{ longest_chain_length }"
-puts "longest chain = #{ longest_chain }"
+puts longest_chain_starting_number
