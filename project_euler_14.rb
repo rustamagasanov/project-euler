@@ -26,10 +26,9 @@ longest_chain_length = 0
 longest_chain_starting_number = 0
 (1..1_000_000).each do |n|
   chain = collatz_sequence(n)
-  chain_length = chain.length
-  if chain_length > longest_chain_length
+  if chain.length > longest_chain_length
     longest_chain_starting_number = n
-    longest_chain_length = chain_length
+    longest_chain_length = chain.length
   end
 end
 
