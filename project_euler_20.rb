@@ -7,4 +7,4 @@
 #
 # Find the sum of the digits in the number 100!
 
-puts (1..100).inject(1, :*).to_s.chars.map(&:to_i).reduce(:+)
+puts (1..100).inject(:*).to_s.chars.map(&:to_i).reduce(:+)
