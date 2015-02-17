@@ -11,6 +11,8 @@
 #
 # Find the sum of all the numbers that can be written as the sum of fifth powers of their digits.
 
+# 7 * 9**5 = 413343 - it's impossible that 7 digit number will be equal to sum of powers which is 413_343
+# 6 * 9**5 = 354294 - this is the maximum 6 digit number that we can obtain summing up all nines in power 5
 puts (10..354_294).inject(0) { |sum, number|
   if number == number.to_s.chars.map(&:to_i).inject(0) { |memo, n| memo += n**5 }
     sum + number
