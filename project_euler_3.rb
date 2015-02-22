@@ -7,7 +7,7 @@
 number = 600851475143
 
 def prime?(num)
-  return false if num == 0 || num == 1
+  return false if num < 2
   (2..Math.sqrt(num).to_i).each do |i|
     return false if num % i == 0
   end
