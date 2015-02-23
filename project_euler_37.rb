@@ -29,11 +29,9 @@ def truncatable_prime?(n)
   end
 end
 
-i = 0
 truncatable_primes = []
 
-loop do
-  i += 1
+loop.each_with_index do |_, i|
   truncatable_primes << i if truncatable_prime?(i)
   break if truncatable_primes.size == 11
 end

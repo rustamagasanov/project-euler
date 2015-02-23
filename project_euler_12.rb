@@ -28,7 +28,7 @@ end
 def get_factors(number)
   factors = [1, number]
   num_to_check = 2
-  complete_flag = number == 1 || foo(number)
+  complete_flag = number <= 1 || foo(number)
 
   while !complete_flag
     if number % num_to_check == 0
@@ -42,11 +42,8 @@ def get_factors(number)
 end
 
 triangle_number = 0
-next_digit = 1
-
-loop do
+loop.each_with_index do |_, next_digit|
   triangle_number += next_digit
-  next_digit += 1
   factors = get_factors(triangle_number)
   break if factors.count >= 500
 end

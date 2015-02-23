@@ -12,13 +12,12 @@ def prime?(num)
   true
 end
 
-i = 0
 prime_count = 0
 
-loop do
-  i += 1
+loop.each_with_index do |_, i|
   prime_count += 1 if prime?(i)
-  break if prime_count == 10_001
+  if prime_count == 10_001
+    puts i
+    break
+  end
 end
-
-puts i
