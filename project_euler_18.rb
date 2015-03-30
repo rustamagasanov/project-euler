@@ -37,7 +37,7 @@ end
 class Node
   attr_reader :i, :j, :matrix, :prev, :g, :f
 
-  def initialize(i, j, prev = nil)
+  def initialize(i, j, prev_node = nil)
     @matrix = Matrix.instance
 
     @i, @j = i, j
@@ -47,7 +47,9 @@ class Node
     set_f
   end
 
-  def prev=(node)
+  def prev=(prev)
+    @prev = prev
+
     set_g
     set_f
   end
@@ -65,23 +67,21 @@ class Node
         prev.g + matrix.content[i][j].to_i
       end
   end
+
+  def print_trace
+    return if prev.nil?
+    prev.print_trace
+    puts "i[#{ self.i }][#{ self.j }], g=#{ self.g }"
+  end
 end
 
 class AStarTriangle
   def find_path
     open_nodes = [Node.new(0, 0)]
-      # [Node.new(0, 0), Node.new(1, 0, Node.new(0, 0)), Node.new(1, 1, Node.new(0, 0))]
     closed_nodes = []
-
-    # open_nodes.each do |node|
-    #   puts node.g
-    #   puts node.f
-    #   puts
-    # end
 
     until open_nodes.empty?
       current = open_nodes.max_by { |node| node.f }
-      # p current.i
       if current.i == Matrix.instance.content.size - 1
         return current
       end
@@ -93,7 +93,6 @@ class AStarTriangle
 
       neighbors.each do |neighbor|
         neighbor.prev = current
-        print "#{ current.f } "
         unless open_nodes.include?(neighbor)
           open_nodes << neighbor
         end
@@ -132,5 +131,5 @@ m.output
 # m.output(m.h)
 
 klass = AStarTriangle.new
-puts
-p klass.find_path
+node = klass.find_path
+node.print_trace
