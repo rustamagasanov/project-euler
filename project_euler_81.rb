@@ -68,28 +68,52 @@ class Node
       end
   end
 
-  def print_trace
-    return if prev.nil?
-    prev.print_trace
-    puts "i[#{ self.i }][#{ self.j }], g=#{ self.g }"
+  def print_trace(sum = 0)
+    puts "i[#{ self.i }][#{ self.j }], val=#{ matrix.content[self.i][self.j] }" \
+     " g=#{ self.g } f=#{ self.f }"
+    if prev.nil?
+      puts "sum = #{ sum + matrix.content[self.i][self.j] }"
+      return
+    end
+    prev.print_trace(sum + matrix.content[self.i][self.j])
   end
 end
 
 class AStar
   def find_path(matrix, start, goal)
-    open_nodes = [Node.new(0, 0)]
+    open_nodes = [Node.new(start[0], start[1])]
     closed_nodes = []
 
     until open_nodes.empty?
-      current = open_nodes.max_by { |node| node.f }
-      if current.i == MatrixAnalyzer.instance.content.size - 1
+      current = open_nodes.min_by { |node| node.f }
+      if current.i == goal[0] && current.j == goal[1]
         return current
       end
 
       open_nodes -= [current]
       closed_nodes << current
 
-      neighbors = [Node.new(current.i + 1, current.j), Node.new(current.i + 1, current.j + 1)]
+      # go only to right or bottom
+      neighbors = []
+      # if matrix[current.i - 1] && matrix[current.i - 1][current.j] &&
+      #   closed_nodes.detect { |node| node.i == current.i - 1 && node.j == current.j }.nil?
+      #   neighbors << Node.new(current.i - 1, current.j)
+      # end
+
+      # if matrix[current.i][current.j - 1] &&
+      #   closed_nodes.detect { |node| node.i == current.i && node.j == current.j - 1  }.nil?
+      #   neighbors << Node.new(current.i, current.j - 1)
+      # end
+
+      if matrix[current.i][current.j + 1] &&
+        closed_nodes.detect { |node| node.i == current.i && node.j == current.j + 1  }.nil?
+        neighbors << Node.new(current.i, current.j + 1)
+      end
+
+      if matrix[current.i + 1] && matrix[current.i + 1][current.j] &&
+        closed_nodes.detect { |node| node.i == current.i + 1 && node.j == current.j  }.nil?
+        neighbors << Node.new(current.i + 1, current.j)
+      end
 
       neighbors.each do |neighbor|
         neighbor.prev = current
@@ -120,9 +144,9 @@ m.content = input
 m.set_d
 m.set_h
 
-puts m.d
+pp m.content
 pp m.h
 
 klass = AStar.new
-# node = klass.find_path(m.content,
-# node.print_trace
+node = klass.find_path(m.content, [0, 0], [4, 4])
+node.print_trace
