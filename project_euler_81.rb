@@ -1,33 +1,47 @@
 require 'singleton'
+require 'pp'
 
-# Heuristic is unnecessary for this task
-class Matrix
+class MatrixAnalyzer
   include Singleton
   attr_accessor :content
+  attr_reader :d, :h
 
-  def output(m = content)
-    (0...m.size).each do |i|
+  def output
+    (0...content.size).each do |i|
       puts if i > 0
-      (0...m.size).each do |j|
-        if m[i][j].nil?
+      (0...content.size).each do |j|
+        if content[i][j].nil?
           break
         else
-          print m[i][j].to_s.rjust(5)
+          print content[i][j].to_s.rjust(5)
         end
       end
     end
     puts
   end
 
-  def h
+  def set_d
+    if @d.nil?
+      (0...content.size).each do |i|
+        (0...content.size).each do |j|
+          @d = content[i][j] if @d.nil? || @d > content[i][j]
+        end
+      end
+    end
+    @d
+  end
+
+  # Heuristic matrix(based on Manhattan distance)
+  def set_h
     if @h.nil?
       @h = []
       (0...content.size).each do |i|
-        d = []
-        (0..i).each do |j|
-          d << i #input.size - 1 - i
+        @h[i] ||= []
+        (0...content.size).each do |j|
+          dx = (i - content.size + 1).abs
+          dy = (j - content.size + 1).abs
+          h[i][j] = d * (dx + dy)
         end
-        @h[i] = d
       end
     end
     @h
@@ -38,7 +52,7 @@ class Node
   attr_reader :i, :j, :matrix, :prev, :g, :f
 
   def initialize(i, j, prev_node = nil)
-    @matrix = Matrix.instance
+    @matrix = MatrixAnalyzer.instance
 
     @i, @j = i, j
     @prev = prev
@@ -82,7 +96,7 @@ class AStarTriangle
 
     until open_nodes.empty?
       current = open_nodes.max_by { |node| node.f }
-      if current.i == Matrix.instance.content.size - 1
+      if current.i == MatrixAnalyzer.instance.content.size - 1
         return current
       end
 
@@ -115,9 +129,13 @@ input = [
 ]
 
 
-m = Matrix.instance
+m = MatrixAnalyzer.instance
 m.content = input
 m.output
+m.set_d
+m.set_h
+puts m.d
+pp m.h
 # m.output(m.h)
 
 # klass = AStarTriangle.new
