@@ -6,20 +6,6 @@ class MatrixAnalyzer
   attr_accessor :content
   attr_reader :d, :h
 
-  def output
-    (0...content.size).each do |i|
-      puts if i > 0
-      (0...content.size).each do |j|
-        if content[i][j].nil?
-          break
-        else
-          print content[i][j].to_s.rjust(5)
-        end
-      end
-    end
-    puts
-  end
-
   def set_d
     if @d.nil?
       (0...content.size).each do |i|
@@ -70,15 +56,15 @@ class Node
 
   # f = g + h
   def set_f
-    @f = g.to_i + matrix.h[i][j].to_i
+    @f = g.to_i + matrix.h[i][j]
   end
 
   def set_g
     @g =
       if prev.nil?
-        matrix.content[i][j].to_i
+        matrix.content[i][j]
       else
-        prev.g + matrix.content[i][j].to_i
+        prev.g + matrix.content[i][j]
       end
   end
 
@@ -89,8 +75,8 @@ class Node
   end
 end
 
-class AStarTriangle
-  def find_path
+class AStar
+  def find_path(matrix, start, goal)
     open_nodes = [Node.new(0, 0)]
     closed_nodes = []
 
@@ -131,13 +117,12 @@ input = [
 
 m = MatrixAnalyzer.instance
 m.content = input
-m.output
 m.set_d
 m.set_h
+
 puts m.d
 pp m.h
-# m.output(m.h)
 
-# klass = AStarTriangle.new
-# node = klass.find_path
+klass = AStar.new
+# node = klass.find_path(m.content,
 # node.print_trace
