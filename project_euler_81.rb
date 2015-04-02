@@ -1,5 +1,4 @@
 require 'singleton'
-require 'pp'
 
 class MatrixAnalyzer
   include Singleton
@@ -69,8 +68,8 @@ class Node
   end
 
   def print_trace(sum = 0)
-    puts "i[#{ self.i }][#{ self.j }], val=#{ matrix.content[self.i][self.j] }" \
-     " g=#{ self.g } f=#{ self.f }"
+    # puts "i[#{ self.i }][#{ self.j }], val=#{ matrix.content[self.i][self.j] }" \
+    #   " g=#{ self.g } f=#{ self.f }"
     if prev.nil?
       puts "sum = #{ sum + matrix.content[self.i][self.j] }"
       return
@@ -124,29 +123,23 @@ class AStar
     end
     puts 'Unable to find path'
   end
-
-  # private
-  def related_nodes
-  end
 end
 
-input = [
-  [131, 673, 234, 103,  18],
-  [201,  96, 342, 965, 150],
-  [630, 803, 746, 422, 111],
-  [537, 699, 497, 121, 956],
-  [805, 732, 524,  37, 331],
-]
+# input = [
+#   [131, 673, 234, 103,  18],
+#   [201,  96, 342, 965, 150],
+#   [630, 803, 746, 422, 111],
+#   [537, 699, 497, 121, 956],
+#   [805, 732, 524,  37, 331],
+# ]
 
+file  = File.read('project_euler_81_matrix.txt')
+input = file.split("\n").map { |row| row.split(',').map(&:to_i) }
 
 m = MatrixAnalyzer.instance
 m.content = input
 m.set_d
 m.set_h
 
-pp m.content
-pp m.h
-
 klass = AStar.new
-node = klass.find_path(m.content, [0, 0], [4, 4])
-node.print_trace
+klass.find_path(m.content, [0, 0], [input.size - 1, input.size - 1]).print_trace
