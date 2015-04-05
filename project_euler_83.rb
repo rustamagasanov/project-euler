@@ -84,26 +84,35 @@ class AStar
     open_nodes = [Node.new(start[0], start[1])]
 
     until open_nodes.empty?
+      p '---'
+      # p 'OPENED:'
+      # open_nodes.each do |node|
+      #   puts "[#{ node.i }][#{ node.j }]"
+      # end
+      # puts open_nodes.count
+      p 'CLOSED:'
+
       current = open_nodes.min_by { |node| node.f }
       if current.i == goal[0] && current.j == goal[1]
         return current
       end
 
-      # closed_nodes.each do |node|
-      #   puts "[#{ node.i }][#{ node.j }]"
-      # end
-
-      puts
-      (0...matrix.size).each do |i|
-        (0...matrix.size).each do |j|
-          if closed_nodes.detect { |node| i == node.i && j == node.j }
-            print "x"
-          else
-            print "-"
-          end
-        end
-        puts
+      closed_nodes.each do |node|
+        puts "[#{ node.i }][#{ node.j }]"
       end
+      p '---'
+
+      # puts
+      # (0...matrix.size).each do |i|
+      #   (0...matrix.size).each do |j|
+      #     if closed_nodes.detect { |node| i == node.i && j == node.j }
+      #       print "x"
+      #     else
+      #       print "-"
+      #     end
+      #   end
+      #   puts
+      # end
 
       open_nodes -= [current]
       closed_nodes << current
@@ -123,13 +132,12 @@ class AStar
       end
 
       if matrix[current.i + 1] && closed_nodes_exclude?(current.i + 1, current.j)
-        p "#{ current.i + 1 } #{ current.j }"
         neighbors << Node.new(current.i + 1, current.j)
       end
 
       neighbors.each do |neighbor|
         neighbor.prev = current
-        unless open_nodes.include?(neighbor)
+        if open_nodes.detect { |node| node.i == neighbor.i && node.j == neighbor.j }.nil?
           open_nodes << neighbor
         end
       end
