@@ -116,7 +116,7 @@ class AStar
 
       neighbors.each do |neighbor|
         neighbor.prev = current
-        unless open_nodes.include?(neighbor)
+        if open_nodes.detect { |node| node.i == neighbor.i && node.j == neighbor.j }.nil?
           open_nodes << neighbor
         end
       end
