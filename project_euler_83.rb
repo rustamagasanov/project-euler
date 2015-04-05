@@ -1,4 +1,3 @@
-
 require 'singleton'
 
 class MatrixAnalyzer
@@ -84,23 +83,10 @@ class AStar
     open_nodes = [Node.new(start[0], start[1])]
 
     until open_nodes.empty?
-      p '---'
-      # p 'OPENED:'
-      # open_nodes.each do |node|
-      #   puts "[#{ node.i }][#{ node.j }]"
-      # end
-      # puts open_nodes.count
-      p 'CLOSED:'
-
       current = open_nodes.min_by { |node| node.f }
       if current.i == goal[0] && current.j == goal[1]
         return current
       end
-
-      closed_nodes.each do |node|
-        puts "[#{ node.i }][#{ node.j }]"
-      end
-      p '---'
 
       # puts
       # (0...matrix.size).each do |i|
@@ -154,16 +140,16 @@ class AStar
   end
 end
 
-input = [
-  [131, 673, 234, 103,  18],
-  [201,  96, 342, 965, 150],
-  [630, 803, 746, 422, 111],
-  [537, 699, 497, 121, 956],
-  [805, 732, 524,  37, 331],
-]
+# input = [
+#   [131, 673, 234, 103,  18],
+#   [201,  96, 342, 965, 150],
+#   [630, 803, 746, 422, 111],
+#   [537, 699, 497, 121, 956],
+#   [805, 732, 524,  37, 331],
+# ]
 
-# file  = File.read('project_euler_83_matrix.txt')
-# input = file.split("\n").map { |row| row.split(',').map(&:to_i) }
+file  = File.read('project_euler_83_matrix.txt')
+input = file.split("\n").map { |row| row.split(',').map(&:to_i) }
 
 m = MatrixAnalyzer.instance
 m.content = input
