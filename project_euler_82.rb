@@ -37,7 +37,7 @@ class MatrixAnalyzer
       (0...content.size).each do |i|
         @h[i] ||= []
         (0...content.size).each do |j|
-          dx = (i - content.size + 1).abs
+          dx = 0
           dy = (j - content.size + 1).abs
           h[i][j] = d * (dx + dy)
         end
@@ -82,8 +82,8 @@ class Node
   end
 
   def print_trace(sum = 0)
-    puts "i[#{ self.i }][#{ self.j }], val=#{ matrix.content[self.i][self.j] }" \
-      " g=#{ self.g } f=#{ self.f }"
+    # puts "i[#{ self.i }][#{ self.j }], val=#{ matrix.content[self.i][self.j] }" \
+    #   " g=#{ self.g } f=#{ self.f }"
     if prev.nil?
       puts "sum = #{ sum + matrix.content[self.i][self.j] }"
       return
@@ -98,8 +98,10 @@ class AStar
 
     until open_nodes.empty?
       current = open_nodes.min_by { |node| node.f }
-      if current.i == goal[0] && current.j == goal[1]
-        return current
+      goal.each do |goal_node|
+        if current.i == goal_node[0] && current.j == goal_node[1]
+          return current
+        end
       end
 
       open_nodes -= [current]
@@ -138,16 +140,16 @@ class AStar
   end
 end
 
-input = [
-  [131, 673, 234, 103,  18],
-  [201,  96, 342, 965, 150],
-  [630, 803, 746, 422, 111],
-  [537, 699, 497, 121, 956],
-  [805, 732, 524,  37, 331],
-]
+# input = [
+#   [131, 673, 234, 103,  18],
+#   [201,  96, 342, 965, 150],
+#   [630, 803, 746, 422, 111],
+#   [537, 699, 497, 121, 956],
+#   [805, 732, 524,  37, 331],
+# ]
 
-# file  = File.read('project_euler_82_matrix.txt')
-# input = file.split("\n").map { |row| row.split(',').map(&:to_i) }
+file  = File.read('project_euler_82_matrix.txt')
+input = file.split("\n").map { |row| row.split(',').map(&:to_i) }
 
 m = MatrixAnalyzer.instance
 m.content = input
@@ -155,8 +157,7 @@ m.set_d
 m.set_h
 
 start_nodes = (0...input.size).inject([]) { |memo, i| memo << Node.new(i, 0) }
-goal_nodes  =
-#[input.size - 1, input.size - 1]
+goal_nodes  = (0...input.size).inject([]) { |memo, i| memo << [i, input.size - 1] }
 
 klass = AStar.new
 klass.find_path(m.content, start_nodes, goal_nodes).print_trace
