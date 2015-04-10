@@ -1,10 +1,13 @@
 class Summation
-  def self.calculate(n, prev = [], ways = 0)
-    return if n == 1
+  def self.calculate(n, prev = [], result = [])
     (1..n / 2).each do |i|
-      ways += 1
-      puts "#{ i }, #{ prev } & #{ n - i }"
-      calculate(n - i, [prev, i].flatten, ways)
+      result << [i, prev, n - i].flatten
+      # puts "#{ i }, #{ prev }, #{ n - i }"
+      calculate(n - i, [prev, i].flatten, result)
+    end
+    if n == 1
+      puts result.map(&:sort).uniq.count
+      return
     end
   end
 end
