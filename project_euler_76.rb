@@ -11,15 +11,13 @@
 #
 # How many different ways can one hundred be written as a sum of at least two positive integers?
 
-target = 100
-ways = [1] + [0] * target
+ways = [1] + [0] * 100
+variations = (1...100).to_a
 
-(1...target).each do |n|
-  (n...target + 1).each do |i|
-    ways[i] += ways[i - n]
+variations.each do |i|
+  (i..100).each do |j|
+    ways[j] += ways[j - i]
   end
 end
-# 1..4 -> n
-#
 
-puts ways[target]
+puts ways[100]

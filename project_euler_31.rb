@@ -8,13 +8,12 @@
 # 1×£1 + 1×50p + 2×20p + 1×5p + 1×2p + 3×1p
 # How many different ways can £2 be made using any number of coins?
 
-ways = [1] + [0]*200
-
+ways = [1] + [0] * 200
 coins = [1, 2, 5, 10, 20, 50, 100, 200]
 
-coins.each do |coin|
-  (coin..200).each do |i|
-    ways[i] += ways[i - coin]
+coins.each do |i|
+  (i..coins.last).each do |j|
+    ways[j] += ways[j - i]
   end
 end
 
