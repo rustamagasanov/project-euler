@@ -1,16 +1,23 @@
 def coprimes(n)
-  coprimes = [1]
-  (2..n).each do |i|
-    if n.gcd(i) > 1
-      coprimes << i
-    end
+  coprimes = []
+
+  n_divs = [1]
+  (2..n / 2).each do |i|
+    n_divs << i if n % i == 0
   end
+  n_divs = n_divs + [n]
+
+  (1..n - 1).each do |i|
+    divs = [1]
+    (2..i / 2).each do |j|
+      divs << j if i % j == 0
+    end
+    divs = divs + [i]
+
+    coprimes << i if n_divs & divs == [1]
+  end
+
   coprimes
-  # return false if n < 2
-  # (2..Math.sqrt(n).to_i).each do |i|
-  #   return false if n % i == 0
-  # end
-  # true
 end
 
 (2..10).each do |i|
