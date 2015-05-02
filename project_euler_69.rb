@@ -1,10 +1,53 @@
-(2..1_000_000).each do |i|
-  divs = [1]
-  (2..i / 2).each do |n|
-    divs << n if i % n == 0
+require 'benchmark'
+
+def prime?(n)
+  return false if n < 2
+  (2..Math.sqrt(n).to_i).each do |i|
+    return false if n % i == 0
   end
-  divs << i
-  puts "#{ i }: #{ divs }"
+  true
+end
+
+Benchmark.bm do |x|
+  # count all, stack to array
+  x.report do
+    (2..20_000).each do |i|
+      divs = [1]
+      (2..i / 2).each do |n|
+        divs << n if i % n == 0
+      end
+      divs << i
+      # puts "#{ i }: #{ divs }"
+    end
+  end
+
+  # count all, store just phi numbers
+  x.report do
+    (2..20_000).each do |i|
+      phi = 1
+      (2..i / 2).each do |n|
+        phi += 1 if i % n == 0
+      end
+      phi += 1
+      # puts "#{ i }: #{ phi }"
+    end
+  end
+
+  # count all + check primes, store phi numbers
+  x.report do
+    (2..20_000).each do |i|
+      if prime?(i)
+        # puts "#{ i }: prime"
+      else
+        phi = 1
+        (2..i / 2).each do |n|
+          phi += 1 if i % n == 0
+        end
+        phi += 1
+        # puts "#{ i }: #{ phi }"
+      end
+    end
+  end
 end
 # class TotientFunc
 #   def coprimes(n)
