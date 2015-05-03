@@ -1,92 +1,17 @@
-require 'benchmark'
-
-def prime?(n)
-  return false if n < 2
-  (2..Math.sqrt(n).to_i).each do |i|
-    return false if n % i == 0
-  end
-  true
-end
-
-Benchmark.bm do |x|
-  # count all, stack to array
-  x.report do
-    (2..20_000).each do |i|
-      divs = [1]
-      (2..i / 2).each do |n|
-        divs << n if i % n == 0
-      end
-      divs << i
-      # puts "#{ i }: #{ divs }"
-    end
+class EulersTotient
+  def phi(n)
+    phi = (1..n).inject(0) { |p, i| p += 1 if n.gcd(i) == 1; p }
+    phis[n] = phi
   end
 
-  # count all, store just phi numbers
-  x.report do
-    (2..20_000).each do |i|
-      phi = 1
-      (2..i / 2).each do |n|
-        phi += 1 if i % n == 0
-      end
-      phi += 1
-      # puts "#{ i }: #{ phi }"
-    end
-  end
-
-  # count all + check primes, store phi numbers
-  x.report do
-    (2..20_000).each do |i|
-      if prime?(i)
-        # puts "#{ i }: prime"
-      else
-        phi = 1
-        (2..i / 2).each do |n|
-          phi += 1 if i % n == 0
-        end
-        phi += 1
-        # puts "#{ i }: #{ phi }"
-      end
-    end
+  def phis
+    @phis ||= []
   end
 end
-# class TotientFunc
-#   def coprimes(n)
-#     coprimes = []
-#
-#     n_divs = [1]
-#     (2..n / 2).each do |i|
-#       n_divs << i if n % i == 0
-#     end
-#     n_divs = n_divs + [n]
-#     known_divisors[n] = n_divs
-#
-#     (1..n - 1).each do |i|
-#       if known_divisors[i] == nil
-#         divs = [1]
-#         (2..i / 2).each do |j|
-#           divs << j if i % j == 0
-#         end
-#         divs = divs + [i]
-#         known_divisors[i] = divs
-#       else
-#         divs = known_divisors[i]
-#       end
-#
-#       coprimes << i if n_divs & divs == [1]
-#     end
-#
-#     coprimes
-#   end
-#
-#   def known_divisors
-#     @known_divisors ||= []
-#   end
-# end
-#
-# t = TotientFunc.new
-# puts (2..1_000_000).inject(0) { |memo, i|
-#   # p "#{ i }: #{ i / coprimes(i).count.to_f }"
-#   p i
-#   res = i / t.coprimes(i).count.to_f
-#   res > memo ? res : memo
-# }
+
+t = EulersTotient.new
+puts (2..1_000_000).inject(0) { |memo, n|
+  p n
+  res = n / t.phi(n)
+  res > memo ? res : memo
+}
