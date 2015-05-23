@@ -2,28 +2,11 @@ require 'benchmark'
 
 class EulersTotient
   def phi(n)
-
-    phi = nil
-
     if phis[n].nil?
-      prime = true
-
-      (2..Math.sqrt(n).to_i).each do |i|
-        if n % i == 0
-          prime = false
-          # if gcd(m, n) = 1, then phi(m*n) = phi(m) * phi(n)
-          if (n / i).gcd(i) == 1
-            if !phis[n / i].nil? && !phis[i].nil?
-              phi = phis[n / i] * phis[i]
-            end
-            break
-          end
-        end
-      end
-
       # if p is prime, phi(p) = p - 1 (for p < 10^20)
-      if phi.nil? && prime
+      if prime?(n)
         phi = n - 1
+        add_prime(n)
       else
         phi = (1..n).inject(0) { |p, i| p += 1 if n.gcd(i) == 1; p }
       end
@@ -42,6 +25,18 @@ class EulersTotient
 
   def phis
     @phis ||= []
+  end
+
+  def primes
+    @primes ||= []
+  end
+
+  # if n=p1*p2 phi(n) = phi(p1) * phi(p2) = (p1 - 1) * (p2 - 1)
+  def add_prime(p2)
+    primes.each do |p1|
+      phis[p1 * p2] = (p1 - 1) * (p2 - 1)
+    end
+    primes << p2
   end
 
   def prime?(n)
@@ -63,12 +58,14 @@ Benchmark.bm do |x|
     #   res > memo ? res : memo
     # }
 
-    puts (2..10_000).inject(0) { |memo, n|
+    puts (2..10_000_00).inject(0) { |memo, n|
       res = n / t.phi(n)
+      p n if n % 1000 == 0
       # p "#{n} -> #{res}"
+      # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
       # res > memo ? res : memo
       if res > memo
-        p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
+        # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
         res
       else
         memo
