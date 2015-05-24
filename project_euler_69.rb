@@ -1,24 +1,54 @@
 require 'benchmark'
 
 class EratosthenesSieve
-  attr_reader :limit, :primes
+  attr_reader :limit
 
   def initialize(limit)
     @limit = limit
-    @primes = (0..limit).to_a
   end
 
   def get_primes
-    primes[2..-1].each do |prime|
+    primes = (0..limit).to_a
+    (0..1).each { |i| primes[i] = nil }
+    (2..Math.sqrt(limit)).each do |prime|
       (prime * 2..limit).step(prime) do |multiple|
         primes[multiple] = nil
       end
     end
-    primes[2..-1].compact
+    primes.compact
   end
 end
 
-class EulersTotient
+class EulersTotientMax
+  attr_reader :limit
+
+  def initialize(limit)
+    @limit = limit
+  end
+
+  def calculate
+    primes = EratosthenesSieve.new(limit).get_primes
+    phis = Array.new(limit)
+
+    (2..limit).each do |n|
+    end
+
+    # puts (2..10).inject(0) { |memo, n|
+    #   res = n / t.phi(n)
+    #   p n if n % 1000 == 0
+    #   # p "#{n} -> #{res}"
+    #   # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
+    #   # res > memo ? res : memo
+    #   if res > memo
+    #     # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
+    #     n
+    #   else
+    #     memo
+    #   end
+    # }
+
+  end
+
   def phi(n)
     if phis[n].nil?
       # if p is prime, phi(p) = p - 1 (for p < 10^20)
@@ -66,23 +96,10 @@ class EulersTotient
   end
 end
 
-t = EulersTotient.new
 
 Benchmark.bm do |x|
   x.report do
-    EratosthenesSieve.new(1_000_000).get_primes
-    # puts (2..10).inject(0) { |memo, n|
-    #   res = n / t.phi(n)
-    #   p n if n % 1000 == 0
-    #   # p "#{n} -> #{res}"
-    #   # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
-    #   # res > memo ? res : memo
-    #   if res > memo
-    #     # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
-    #     n
-    #   else
-    #     memo
-    #   end
-    # }
+    # p EratosthenesSieve.new(100).get_primes
+    puts EulersTotientMax.new(10).n_divided_phi
   end
 end
