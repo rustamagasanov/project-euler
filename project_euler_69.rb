@@ -26,9 +26,32 @@ class EulersTotientMax
     @limit = limit
   end
 
-  def calculate
+  def n_divided_phi
     primes = EratosthenesSieve.new(limit).get_primes
     phis = Array.new(limit)
+
+    # if p is prime, phi(p) = p - 1
+    primes.each { |p| phis[p] = p - 1 }
+
+    # if n=p1*p2 phi(n) = phi(p1) * phi(p2) = (p1 - 1) * (p2 - 1)
+    (0..primes.size - 1).each do |p1|
+      ((p1 + 1)..primes.size - 1).each do |p2|
+        n = primes[p1] * primes[p2]
+        next if n > limit
+        phis[n] = (primes[p1] - 1) * (primes[p2] - 1)
+      end
+    end
+
+    # if n is even, phi(2n) = 2 * phi(n)
+    (2..limit).each do |n|
+      if n.even? && !phis[n].nil?
+        if 2 * n <= limit && phis[2 * n].nil?
+          phis[2 * n] = 2 * phis[n]
+        end
+      end
+    end
+
+    p phis
 
     (2..limit).each do |n|
     end
@@ -100,6 +123,6 @@ end
 Benchmark.bm do |x|
   x.report do
     # p EratosthenesSieve.new(100).get_primes
-    puts EulersTotientMax.new(10).n_divided_phi
+    EulersTotientMax.new(10).n_divided_phi
   end
 end
