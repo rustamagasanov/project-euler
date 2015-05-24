@@ -1,5 +1,23 @@
 require 'benchmark'
 
+class EratosthenesSieve
+  attr_reader :limit, :primes
+
+  def initialize(limit)
+    @limit = limit
+    @primes = (0..limit).to_a
+  end
+
+  def get_primes
+    primes[2..-1].each do |prime|
+      (prime * 2..limit).step(prime) do |multiple|
+        primes[multiple] = nil
+      end
+    end
+    primes[2..-1].compact
+  end
+end
+
 class EulersTotient
   def phi(n)
     if phis[n].nil?
@@ -52,18 +70,19 @@ t = EulersTotient.new
 
 Benchmark.bm do |x|
   x.report do
-    puts (2..10).inject(0) { |memo, n|
-      res = n / t.phi(n)
-      p n if n % 1000 == 0
-      # p "#{n} -> #{res}"
-      # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
-      # res > memo ? res : memo
-      if res > memo
-        # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
-        n
-      else
-        memo
-      end
-    }
+    EratosthenesSieve.new(1_000_000).get_primes
+    # puts (2..10).inject(0) { |memo, n|
+    #   res = n / t.phi(n)
+    #   p n if n % 1000 == 0
+    #   # p "#{n} -> #{res}"
+    #   # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
+    #   # res > memo ? res : memo
+    #   if res > memo
+    #     # p "#{n} -> f(n)=#{t.phi(n)}, #{res}"
+    #     n
+    #   else
+    #     memo
+    #   end
+    # }
   end
 end
