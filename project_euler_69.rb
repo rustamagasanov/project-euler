@@ -37,7 +37,7 @@ end
 limit = 1_000_000
 max = 1
 
-primes = EratosthenesSieve.new(limit / 2).get_primes
+primes = EratosthenesSieve.new(Math.sqrt(limit)).get_primes
 
 # n / phi(n) becomes bigger on higher n and lower phi(n)
 # lowest phi(n) for n consists of only prime factors
