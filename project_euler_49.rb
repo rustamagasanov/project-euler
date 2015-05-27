@@ -35,5 +35,5 @@ permutations.reject! { |k, v| v.size < 3 }
 permutations.each do |k, permutation|
   diffs = []
   (0..permutation.size - 1).each { |i| diffs[i] = []; (i + 1..permutation.size - 1).each { |j| diffs[i] << permutation[j] - permutation[i] } }
-  diffs.each { |d| d.each { |v| p "#{d} #{permutation}" if d.include?(v * 2) } }
+  diffs.each_with_index { |d, i| d.each { |v| p permutation if d.include?(v * 2) } }
 end
