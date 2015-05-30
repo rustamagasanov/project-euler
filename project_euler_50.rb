@@ -35,7 +35,7 @@ max_sum = 0
 
 primes = EratosthenesSieve.new(limit).get_primes
 
-(0..primes.size / 2).each do |primes_from|
+(0..Math.sqrt(primes.size)).each do |primes_from|
   primes_count = 0
   sum = primes[primes_from]
   loop.with_index(primes_from + 1) do |_, primes_to|
