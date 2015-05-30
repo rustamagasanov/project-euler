@@ -29,14 +29,11 @@ class EratosthenesSieve
 end
 
 limit = 1_000_000
-# limit = 1_000
 
 max_primes_count = 0
-max_primes_from = 0
-max_primes_to = 0
-mm = 0
+max_sum = 0
 
-primes = EratosthenesSieve.new(limit).get_primes#[3..23].reduce(:+)
+primes = EratosthenesSieve.new(limit).get_primes
 
 (0..primes.size / 2).each do |primes_from|
   primes_count = 0
@@ -44,10 +41,8 @@ primes = EratosthenesSieve.new(limit).get_primes#[3..23].reduce(:+)
   loop.with_index(primes_from + 1) do |_, primes_to|
     if sum + primes[primes_to] >= limit
       if primes.include?(sum) && primes_count > max_primes_count
-        mm = sum
+        max_sum = sum
         max_primes_count = primes_count
-        max_primes_from = primes_from
-        max_primes_to = primes_to
       end
       break
     else
@@ -57,9 +52,4 @@ primes = EratosthenesSieve.new(limit).get_primes#[3..23].reduce(:+)
   end
 end
 
-p primes
-p max_primes_count
-p max_primes_from
-p max_primes_to
-p primes[max_primes_from..max_primes_to].reduce(:+)
-p mm
+puts max_sum
