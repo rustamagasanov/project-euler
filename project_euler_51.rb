@@ -36,7 +36,7 @@ positions = []
 catch(:done) do
   primes.each do |p|
     p = p.to_s
-    p p
+    # p p
 
     loop.with_index(1) do |_, i|
       pattern = i.to_s(2).rjust(p.size, '0')
@@ -52,12 +52,15 @@ catch(:done) do
         prime_dup = p.dup
         position.each { |i| prime_dup[i] = replacement.to_s }
         family << prime_dup if PrimeChecker.prime?(prime_dup.to_i)
-        break if replacement > 1 && family.size < replacement - 1 # - 2 for 56**3
+        break if replacement > 1 && family.size < replacement - 1
       end
 
-      if family.size > 7 # 6 for 56**3
+      if family.size > 7
         puts "prime is: #{p}, family: #{family}"
-        throw(:done)
+        # I mean wtf? Problem description is missleading
+        if family.map(&:to_i).all? { |i| i.to_s.size == 6 }
+          throw(:done)
+        end
       end
     end
   end
