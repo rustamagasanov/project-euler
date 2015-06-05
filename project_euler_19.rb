@@ -49,7 +49,7 @@ sundays = 0
           weekdays[index + 1]
         end
       end
-      calendar[year][month][day] = current_weekday
+      # calendar[year][month][day] = current_weekday
       sundays += 1 if year >= 1901 && day == 1 && current_weekday == 'Sunday'
     end
   end
