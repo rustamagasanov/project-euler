@@ -20,3 +20,21 @@
 # The multiplicative order of 10 mod an integer n relatively prime to 10 gives the period of the decimal expansion of the reciprocal of n (Glaisher 1878, Lehmer 1941). For example, the haupt-exponent of 10 (mod 13) is 6, and
 # 1/13 = 0.(076923)
 
+def prime?(n)
+  return false if n < 2
+  (2..Math.sqrt(n).to_i).each { |i| return false if n % i == 0 }
+  true
+end
+
+max_i, max_n = 0, 0
+(1..1_000).each do |n|
+  next unless prime?(n)
+  loop.with_index(1) do |_, i|
+    if (10**i) % n == 1
+      max_i, max_n = i, n if i > max_i
+      break
+    end
+    break if i > n
+  end
+end
+puts "max_i: #{max_i}, max_n: #{max_n}"
