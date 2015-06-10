@@ -27,7 +27,7 @@ def prime?(n)
 end
 
 max_i, max_n = 0, 0
-(1..1_000).each do |n|
+(1...1_000).each do |n|
   next unless prime?(n)
   loop.with_index(1) do |_, i|
     if (10**i) % n == 1
@@ -37,4 +37,4 @@ max_i, max_n = 0, 0
     break if i > n
   end
 end
-puts "max_i: #{max_i}, max_n: #{max_n}"
+puts "max cycle length=#{max_i} for n=#{max_n}"
