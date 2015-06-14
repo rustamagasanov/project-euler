@@ -52,18 +52,25 @@ loop do
   r += 1
 
   new_p = nil
-  best_new_p_candidate = nil
 
   loop.with_index(1) do |_, i|
-    new_p = i
-    if (p + new_p) % k == 0
-
-      # break
+    if (p + i) % k == 0
+      if new_p == nil || (i ** 2 - d) < new_p
+        new_p = i
+      else
+        break
+      end
     else
       next
     end
   end
 
 
-  break if k == 1
+  new_k = (new_p ** 2 - d) / k
+  new_x = (new_p * x + d * y) / k.abs
+  new_y = (new_p * y + x) / k.abs
+
+  p "#{new_p} #{new_k} #{new_x} #{new_y}"
+  break
+  # break if k == 1
 end
