@@ -25,6 +25,52 @@
 # http://cs.annauniv.edu/insight/Reading/algebra/indet/chakra.htm
 # http://cs.annauniv.edu/insight/Reading/algebra/indet/chakraex.htm
 
+def chakravala(d)
+  p = 1
+  k = 1
+  x = 1
+  y = 0
+
+  loop.with_index do |_, r|
+    new_p = nil
+
+    loop.with_index(1) do |_, i|
+      if (p + i) % k == 0
+        if new_p == nil || (i ** 2 - d) < new_p
+          new_p = i
+        else
+          break
+        end
+      else
+        next
+      end
+    end
+
+    new_k = (new_p ** 2 - d) / k
+    new_x = (new_p * x + d * y) / k.abs
+    new_y = (new_p * y + x) / k.abs
+
+    # p "#{new_p} #{new_k} #{new_x} #{new_y}"
+
+    p = new_p
+    k = new_k
+    x = new_x
+    y = new_y
+
+    return [x, y] if k == 1
+  end
+end
+
+largest_x, largest_d = 0, 0
+(2..1_000).each do |d|
+  next if Math.sqrt(d) % 1 == 0.0
+  x, _ = chakravala(d)
+  # puts "#{x}^2 - #{d}*#{y.to_i}^2 = 1"
+  largest_x, largest_d = x, d if x > largest_x
+end
+puts "largest x = #{largest_x}, largest d = #{largest_d}"
+
+# simple(slow) approach
 # largest_x, largest_d = 0, 0
 # (2..1_000).each do |d|
 #   next if Math.sqrt(d) % 1 == 0.0
@@ -37,49 +83,5 @@
 #     end
 #   end
 # end
-#
 # puts "largest x = #{largest_x}, largest d = #{largest_d}"
 
-r = 0
-p = 1
-k = 1
-x = 1
-y = 0
-
-d = 61
-
-loop do
-  r += 1
-
-  new_p = nil
-
-  loop.with_index(1) do |_, i|
-    if (p + i) % k == 0
-      if new_p == nil || (i ** 2 - d) < new_p
-        new_p = i
-      else
-        break
-      end
-    else
-      next
-    end
-  end
-
-
-  # p = new_p
-  new_k = (new_p ** 2 - d) / k
-  # k = (new_p ** 2 - d) / k
-  new_x = (new_p * x + d * y) / k.abs
-  # x = (new_p * x + d * y) / k.abs
-  new_y = (new_p * y + x) / k.abs
-  # y = (new_p * y + x) / k.abs
-
-  p "#{new_p} #{new_k} #{new_x} #{new_y}"
-  p = new_p
-  k = new_k
-  x = new_x
-  y = new_y
-  # p "#{p} #{k} #{x} #{y}"
-  # break if r == 5
-  break if k == 1
-end
