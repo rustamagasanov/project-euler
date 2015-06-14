@@ -66,11 +66,20 @@ loop do
   end
 
 
+  # p = new_p
   new_k = (new_p ** 2 - d) / k
+  # k = (new_p ** 2 - d) / k
   new_x = (new_p * x + d * y) / k.abs
+  # x = (new_p * x + d * y) / k.abs
   new_y = (new_p * y + x) / k.abs
+  # y = (new_p * y + x) / k.abs
 
   p "#{new_p} #{new_k} #{new_x} #{new_y}"
-  break
-  # break if k == 1
+  p = new_p
+  k = new_k
+  x = new_x
+  y = new_y
+  # p "#{p} #{k} #{x} #{y}"
+  # break if r == 5
+  break if k == 1
 end
