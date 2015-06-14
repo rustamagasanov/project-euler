@@ -22,6 +22,7 @@
 
 # https://en.wikipedia.org/wiki/Pell%27s_equation
 # https://en.wikipedia.org/wiki/Chakravala_method
+# http://cs.annauniv.edu/insight/Reading/algebra/indet/chakra.htm
 
 largest_x, largest_d = 0, 0
 (2..1_000).each do |d|
