@@ -23,4 +23,5 @@ def generate_fractions(d)
   fractions.sort
 end
 
-p generate_fractions(8)
+fractions = generate_fractions(8)
+puts fractions[fractions.index(Rational(3,7)) - 1].numerator
