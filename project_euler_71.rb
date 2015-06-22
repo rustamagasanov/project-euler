@@ -16,10 +16,11 @@ def generate_fractions(d)
   (1..d).each do |den|
     (1..d).each do |num|
       break if num >= den
-      fractions << "#{num}/#{den}"
+      next if Rational(num, den).denominator != den
+      fractions << Rational(num, den)
     end
   end
-  fractions
+  fractions.sort
 end
 
 p generate_fractions(8)
