@@ -10,10 +10,13 @@
 #
 # By listing the set of reduced proper fractions for d ≤ 1,000,000 in ascending order of size, find the numerator of the fraction immediately to the left of 3/7.
 
+# require 'benchmark'
 
+# Brute force
 def generate_fractions(d)
   fractions = []
   (1..d).each do |den|
+    # p den
     (1..d).each do |num|
       break if num >= den
       next if Rational(num, den).denominator != den
@@ -23,5 +26,10 @@ def generate_fractions(d)
   fractions.sort
 end
 
-fractions = generate_fractions(8)
-puts fractions[fractions.index(Rational(3,7)) - 1].numerator
+# Benchmark.bm do |x|
+#   x.report do
+    fractions = generate_fractions(8)
+    puts fractions[fractions.index(Rational(3,7)) - 1].numerator
+    # p fractions
+#   end
+# end
