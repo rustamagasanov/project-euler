@@ -10,20 +10,19 @@
 #
 # By listing the set of reduced proper fractions for d ≤ 1,000,000 in ascending order of size, find the numerator of the fraction immediately to the left of 3/7.
 
-three_seven = Rational(3, 7)
+three_seven = 3 / 7.0
 current_left = 0
-lower_num = 1
+lower_num, lower_den = 1, nil
 
 (1..1_000_000).each do |den|
   (lower_num..den - 1).each do |num|
-    f = Rational(num, den)
-    next if f.denominator != den
+    f = num / den.to_f
     break if f > three_seven
 
     if f < three_seven && current_left < f
       current_left = f
-      lower_num = num
-      p f
+      lower_num, lower_den = num, den
+      puts "#{lower_num}/#{lower_den}"
     end
   end
 end
