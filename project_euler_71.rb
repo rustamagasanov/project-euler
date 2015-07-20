@@ -12,19 +12,18 @@
 
 three_seven = Rational(3, 7)
 current_left = 0
+lower_num = 1
 
 (1..1_000_000).each do |den|
-  # p den
-  (1..1_000_000).each do |num|
-    break if num >= den
-
+  (lower_num..den - 1).each do |num|
     f = Rational(num, den)
     next if f.denominator != den
-    next if f > three_seven
+    break if f > three_seven
 
     if f < three_seven && current_left < f
       current_left = f
-      p current_left
+      lower_num = num
+      p f
     end
   end
 end
