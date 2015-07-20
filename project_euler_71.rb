@@ -15,8 +15,10 @@ current_left = 0
 lower_num, lower_den = 1, nil
 
 (1..1_000_000).each do |den|
+  # don't check numbers lower than current left
   (lower_num..den - 1).each do |num|
     f = num / den.to_f
+    # don't check numbers higher than 3/7
     break if f > three_seven
 
     if f < three_seven && current_left < f
