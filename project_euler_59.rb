@@ -14,9 +14,14 @@ cipher = File.read('p059_cipher.txt').split(',').map(&:strip).map(&:to_i)
 
 ('aaa'..'zzz').each do |secret|
   decoded_string = ''
-  cipher.each do |char|
-    decoded_char = (char ^ secret[0].ord ^ secret[1].ord ^ secret[2].ord).chr
-    decoded_string << decoded_char
+  cipher.each_with_index do |char, index|
+    decoded_char = (char ^ secret[index % 3].ord).chr
+    if %w[ [ ] # ~ { } % * `].include?(decoded_char)
+      decoded_string = ''
+      break
+    else
+      decoded_string << decoded_char
+    end
   end
-  puts decoded_string
+  puts decoded_string if decoded_string.size > 0
 end
