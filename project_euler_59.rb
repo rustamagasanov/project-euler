@@ -12,16 +12,20 @@
 
 cipher = File.read('p059_cipher.txt').split(',').map(&:strip).map(&:to_i)
 
-('aaa'..'zzz').each do |secret|
-  decoded_string = ''
-  cipher.each_with_index do |char, index|
-    decoded_char = (char ^ secret[index % 3].ord).chr
-    if %w[ [ ] # ~ { } % * `].include?(decoded_char)
-      decoded_string = ''
-      break
-    else
-      decoded_string << decoded_char
+decoded_string = ''
+catch(:done) do
+  ('aaa'..'zzz').each do |secret|
+    cipher.each_with_index do |char, index|
+      decoded_char = (char ^ secret[index % 3].ord).chr
+      if %w[ [ ] # ~ { } % * `].include?(decoded_char)
+        decoded_string = ''
+        break
+      else
+        decoded_string << decoded_char
+      end
     end
+    throw(:done) if decoded_string.size > 0
   end
-  puts decoded_string if decoded_string.size > 0
 end
+
+puts decoded_string.chars.map(&:ord).reduce(:+)
