@@ -10,3 +10,19 @@
 # It can be seen that there are 3 fractions between 1/3 and 1/2.
 #
 # How many fractions lie between 1/3 and 1/2 in the sorted set of reduced proper fractions for d ≤ 12,000?
+
+one_two = 1 / 2.0
+one_three = 1 / 3.0
+n = 0
+
+(1..12_000).each do |den|
+  p den
+  (1..den - 1).each do |num|
+    f = num / den.to_f
+    break if f > one_two
+    if f > one_three
+      n += 1
+    end
+  end
+end
+puts n
