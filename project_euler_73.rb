@@ -22,9 +22,9 @@ n = []
     break if f >= one_two
     if f > one_three
       # puts f
-      n << f
+      n << f unless n.include?(f)
     end
   end
 end
 
-p n.uniq.count
+p n.count
