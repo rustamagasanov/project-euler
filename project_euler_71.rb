@@ -19,9 +19,9 @@ lower_num, lower_den = 1, nil
   (lower_num..den - 1).each do |num|
     f = num / den.to_f
     # don't check numbers higher than 3/7
-    break if f > three_seven
+    break if f >= three_seven
 
-    if f < three_seven && current_left < f
+    if current_left < f
       current_left = f
       lower_num, lower_den = num, den
       puts "#{lower_num}/#{lower_den}"
