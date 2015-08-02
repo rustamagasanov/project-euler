@@ -11,15 +11,27 @@
 #
 # How many fractions lie between 1/3 and 1/2 in the sorted set of reduced proper fractions for d ≤ 12,000?
 
-one_two = Rational(1, 2)
-one_three = Rational(1, 3)
+# 7295372
+def gcd(a, b)
+  a, b = b, a if b > a
+  c = a % b
+  if c == 0
+    b
+  else
+    gcd(b, c)
+  end
+end
+
+one_two = 1 / 2.0 #Rational(1, 2)
+one_three = 1 / 3.0 #Rational(1, 3)
 n = 0
 
 (1..12_000).each do |den|
   p den
   (1..den - 1).each do |num|
-    f = Rational(num, den)
-    next if f.numerator != num
+    # f = Rational(num, den)
+    next if gcd(den, num) != 1 #f.numerator != num
+    f = num / den.to_f
     break if f >= one_two
     if f > one_three
       n += 1
