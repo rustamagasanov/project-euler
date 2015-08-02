@@ -11,18 +11,18 @@
 #
 # How many fractions lie between 1/3 and 1/2 in the sorted set of reduced proper fractions for d ≤ 12,000?
 
-one_two = 1 / 2.0
-one_three = 1 / 3.0
+one_two = Rational(1, 2)
+one_three = Rational(1, 3)
 n = []
 
 (1..12_000).each do |den|
   p den
   (1..den - 1).each do |num|
-    f = num / den.to_f
+    f = Rational(num, den)
+    next if f.numerator != num
     break if f >= one_two
     if f > one_three
-      # puts f
-      n << f unless n.include?(f)
+      n << f
     end
   end
 end
