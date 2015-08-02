@@ -13,7 +13,7 @@
 
 one_two = Rational(1, 2)
 one_three = Rational(1, 3)
-n = []
+n = 0
 
 (1..12_000).each do |den|
   p den
@@ -22,9 +22,9 @@ n = []
     next if f.numerator != num
     break if f >= one_two
     if f > one_three
-      n << f
+      n += 1
     end
   end
 end
 
-p n.count
+puts n
