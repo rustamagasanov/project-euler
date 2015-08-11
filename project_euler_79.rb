@@ -6,25 +6,25 @@
 #
 # Given that the three characters are always asked for in order, analyse the file so as to determine the shortest possible secret passcode of unknown length.
 
-passphrase = ''
+passphrase = nil
 codes = File.read('p079_keylog.txt').split("\n")
 codes.each do |code|
-  # '123456' & '789' = '123456 789'
-  if passphrase[code[0]].nil? && passphrase[code[1]].nil? && passphrase[code[2]].nil?
-    passphrase += code
-    next
-  end
+  # if code present - skip
 
-  # '123456' & '781' = '781 123456'
-  if passphrase[code[0]].nil? && passphrase[code[1]].nil? && !passphrase[code[2]].nil?
-    passphrase = code + passphrase
+  lookup = passphrase
+  code.each_char do |char|
+    if lookup.nil?
+      passphrase = '' if passphrase.nil?
+      passphrase += char
+    else
+      found_index = lookup.index(char)
+      if found_index.nil?
+        passphrase += char
+      else
+        lookup = passphrase.split(char)[1]
+        # passphrase = "#{passphrase[0..found_index - 1]}#{char}#{passphrase[found_index..-1]}"
+      end
+    end
   end
-
-  # else
-  #   passphrase.split(code[0])[1]
-  #   # if passphrase.split(code[1])[1].nil?
-  #   #   passphrase +=
-  #   # end
-  # end
 end
 puts passphrase
