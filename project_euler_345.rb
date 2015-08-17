@@ -53,6 +53,15 @@ m1 =  [[  7,  53, 183, 439, 863],
 # checks if solution was found(indexes of elements with 0 value in each row doesn't intersect)
 def check_matrix(m)
   indexes_by_rows = []
+  m.each_with_index do |row, i|
+    row.each_with_index do |el, j|
+      if m[i][j] == 0
+        indexes_by_rows[i] ||= []
+        indexes_by_rows[i] << j
+      end
+    end
+  end
+  indexes_by_rows
 end
 
 # step 1
@@ -65,5 +74,4 @@ end
 
 require 'pp'
 pp m1
-
 p check_matrix(m1)
