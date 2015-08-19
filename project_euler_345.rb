@@ -61,17 +61,43 @@ def check_matrix(m)
       end
     end
   end
+
+  (0..indexes_by_rows).each do |i|
+    (0..indexes_by_rows).each do |j|
+    end
+  end
+
   indexes_by_rows
 end
 
 # step 1
-m1.each_with_index do |row, i|
-  min = row.min
-  row.each_with_index do |el, j|
-    m1[i][j] = m1[i][j] - min
-  end
-end
+# m1.each_with_index do |row, i|
+#   min = row.min
+#   row.each_with_index do |el, j|
+#     m1[i][j] = m1[i][j] - min
+#   end
+# end
 
 require 'pp'
 pp m1
-p check_matrix(m1)
+p '--'
+
+columns_min = []
+# step 2
+(0..m1.size - 1).each do |i|
+  (0..m1.size - 1).each do |j|
+    columns_min[i] = m1[j][i] if columns_min[i] == nil || columns_min[i] > m1[j][i]
+  end
+end
+
+p columns_min
+p '--'
+
+(0..m1.size - 1).each do |i|
+  (0..m1.size - 1).each do |j|
+    m1[j][i] = m1[j][i] - columns_min[i]
+  end
+end
+
+pp m1
+# p check_matrix(m1)
