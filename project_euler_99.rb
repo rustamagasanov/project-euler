@@ -19,10 +19,19 @@
 
 file_content = File.read('project_euler_99_base_exp.txt').split("\n")
 
-bases, exponents = [], []
+data = []
 file_content.map do |f|
   line = f.split(',')
-  bases     << line[0]
-  exponents << line[1]
+  data << { base: line[0].to_i, exp: line[1].to_i }
 end
 
+max_index, max_logarithm = 0, 0
+data.each_with_index do |el, i|
+  result = el[:exp] * Math.log(el[:base])
+  if result > max_logarithm
+    max_logarithm = result
+    max_index = i
+  end
+end
+
+puts max_index + 1
