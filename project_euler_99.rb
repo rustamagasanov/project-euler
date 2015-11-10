@@ -9,6 +9,13 @@
 #
 # NOTE: The first two lines in the file represent the numbers in the example given above.
 
+# Solution method: http://math.stackexchange.com/questions/8308/working-with-large-exponents
+# Since logarithms are monotonically increasing, you can determine if
+# a^b>c^d
+# by instead checking if
+# log(a^b)>log(c^d)
+# which can be rewritten (using basic properties of logarithms) as
+# b*log(a)>d*log(c)
 
 file_content = File.read('project_euler_99_base_exp.txt').split("\n")
 
@@ -19,17 +26,3 @@ file_content.map do |f|
   exponents << line[1]
 end
 
-acc = []
-exs = []
-bases.each do |b|
-  if b.size == 6
-    exs << exponents[bases.index(b)]
-  end
-end
-exs.sort.each do |e|
-  puts "#{bases[exponents.index(e)]}-#{e}"
-end
-
-p file_content.index("100006,601055")
-# p exponents.index(exponents.max)
-# p bases[exponents.index(exponents.max)]
