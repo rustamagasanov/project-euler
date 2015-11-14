@@ -11,3 +11,26 @@
 # Surprisingly, bouncy numbers become more and more common and by the time we reach 21780 the proportion of bouncy numbers is equal to 90%.
 #
 # Find the least number for which the proportion of bouncy numbers is exactly 99%.
+
+least = 100
+count = 0
+
+def bouncy?(i)
+  !(increasing?(i) || decreasing?(i))
+end
+
+def increasing?(i)
+  i.to_s.chars.sort.join == i.to_s
+end
+
+def decreasing?(i)
+  i.to_s.chars.sort.reverse.join == i.to_s
+end
+
+(least...1_000).each do |i|
+  if bouncy?(i)
+    count += 1
+  end
+end
+
+puts count
