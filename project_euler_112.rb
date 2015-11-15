@@ -27,10 +27,12 @@ def decreasing?(i)
   i.to_s.chars.sort.reverse.join == i.to_s
 end
 
-(least...1_000).each do |i|
+loop.with_index(least) do |_, i|
   if bouncy?(i)
     count += 1
   end
+  if i % 2 == 0 && count == i / 2
+    puts i
+    break
+  end
 end
-
-puts count
