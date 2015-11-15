@@ -31,7 +31,7 @@ loop.with_index(least) do |_, i|
   if bouncy?(i)
     count += 1
   end
-  if count * 100 / i == 90
+  if count * 100 / i == 99
     puts i
     break
   end
