@@ -13,7 +13,7 @@
 # Find the least number for which the proportion of bouncy numbers is exactly 99%.
 
 least = 100
-count = 0
+bouncy_count = 0
 
 def bouncy?(i)
   !(increasing?(i) || decreasing?(i))
@@ -28,10 +28,8 @@ def decreasing?(i)
 end
 
 loop.with_index(least) do |_, i|
-  if bouncy?(i)
-    count += 1
-  end
-  if count * 100 / i == 99
+  bouncy_count += 1 if bouncy?(i)
+  if bouncy_count * 100 / i == 99
     puts i
     break
   end
