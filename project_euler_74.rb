@@ -26,7 +26,7 @@ end
 
 def generate_chain(n, memo = nil)
   chain_elements = memo || [n]
-  new_chain_element = n.to_s.chars.map(&:to_i).inject { |sum, digit| sum + factorial(digit) }
+  new_chain_element = n.to_s.chars.map(&:to_i).inject(0) { |sum, digit| sum + factorial(digit) }
   if chain_elements[0] == new_chain_element
     puts "Chain completed: "
     chain_elements.each { |chain_element| print "#{chain_element} -> " }
