@@ -21,10 +21,26 @@
 # How many chains, with a starting number below one million, contain exactly sixty non-repeating terms?
 
 def factorial(n)
-  n <= 0 ? 1 : (0..n).reduce(:*)
+  n <= 0 ? 1 : (1..n).reduce(:*)
 end
 
-def generate_chain(n)
+def generate_chain(n, memo = nil)
+  chain_elements = memo || [n]
+  new_chain_element = n.to_s.chars.map(&:to_i).inject { |sum, digit| sum + factorial(digit) }
+  if chain_elements[0] == new_chain_element
+    puts "Chain completed: "
+    chain_elements.each { |chain_element| print "#{chain_element} -> " }
+    puts new_chain_element
+  elsif chain_elements.include?(new_chain_element)
+    puts "Chain stuck: "
+    chain_elements.each { |chain_element| print "#{chain_element} -> " }
+    puts "(#{new_chain_element})"
+  else
+    chain_elements << new_chain_element
+    generate_chain(new_chain_element, chain_elements)
+  end
 end
+
+generate_chain(69)
 
 
