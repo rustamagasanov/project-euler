@@ -25,22 +25,23 @@ def factorial(n)
 end
 
 def generate_chain(n, memo = nil)
-  chain_elements = memo || [n]
+  chain = memo || [n]
   new_chain_element = n.to_s.chars.map(&:to_i).inject(0) { |sum, digit| sum + factorial(digit) }
-  if chain_elements[0] == new_chain_element
-    puts "Chain completed: "
-    chain_elements.each { |chain_element| print "#{chain_element} -> " }
-    puts new_chain_element
-  elsif chain_elements.include?(new_chain_element)
-    puts "Chain stuck: "
-    chain_elements.each { |chain_element| print "#{chain_element} -> " }
-    puts "(#{new_chain_element})"
+  if chain.include?(new_chain_element)
+    # puts "Chain stuck: "
+    # chain.each { |chain_element| print "#{chain_element} -> " }
+    # puts "(#{new_chain_element})"
+    chain
   else
-    chain_elements << new_chain_element
-    generate_chain(new_chain_element, chain_elements)
+    chain << new_chain_element
+    generate_chain(new_chain_element, chain)
   end
 end
 
-generate_chain(69)
+(1..1_000_000).each do |i|
+  p i
+  generate_chain(i)
+end
+# p generate_chain(169)
 
 
