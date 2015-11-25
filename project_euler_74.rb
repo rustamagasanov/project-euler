@@ -20,28 +20,40 @@
 #
 # How many chains, with a starting number below one million, contain exactly sixty non-repeating terms?
 
-def factorial(n)
-  n <= 0 ? 1 : (1..n).reduce(:*)
-end
+class ChainsBuilder
+  attr_reader :known_chains, :from, :to
 
-def generate_chain(n, memo = nil)
-  chain = memo || [n]
-  new_chain_element = n.to_s.chars.map(&:to_i).inject(0) { |sum, digit| sum + factorial(digit) }
-  if chain.include?(new_chain_element)
-    # puts "Chain stuck: "
-    # chain.each { |chain_element| print "#{chain_element} -> " }
-    # puts "(#{new_chain_element})"
-    chain
-  else
-    chain << new_chain_element
-    generate_chain(new_chain_element, chain)
+  def initialize(from, to)
+    @known_chains = []
+    @from, @to = from, to
+  end
+
+  def find_60_terms_chains_count
+    (from..to).each do |i|
+      p i
+      generate_chain(i)
+    end
+  end
+
+  private
+  def generate_chain(n, memo = nil)
+    chain = memo || [n]
+    new_chain_element = n.to_s.chars.map(&:to_i).inject(0) { |sum, digit| sum + factorial(digit) }
+    if chain.include?(new_chain_element)
+      # puts "Chain stuck: "
+      # chain.each { |chain_element| print "#{chain_element} -> " }
+      # puts "(#{new_chain_element})"
+      chain
+    else
+      chain << new_chain_element
+      generate_chain(new_chain_element, chain)
+    end
+  end
+
+  def factorial(n)
+    n <= 0 ? 1 : (1..n).reduce(:*)
   end
 end
 
-(1..1_000_000).each do |i|
-  p i
-  generate_chain(i)
-end
-# p generate_chain(169)
-
+ChainsBuilder(1_000_000).new.find_60_terms_chains_count
 
