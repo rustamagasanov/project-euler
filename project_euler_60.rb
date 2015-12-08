@@ -34,4 +34,22 @@ class PrimeChecker
   end
 end
 
-primes = EratosthenesSieve.new(999_999).get_primes
+primes = EratosthenesSieve.new(1000).get_primes
+prime_sets = []
+
+primes.each.with_index do |checking, i|
+  prime_sets[i] = [checking]
+  (i + 1..primes.size - 1).each do |j|
+    if PrimeChecker.prime?("#{checking}#{primes[j]}".to_i) && PrimeChecker.prime?("#{primes[j]}#{checking}".to_i)
+      # if !prime_sets[i].empty?
+      #   prime_sets[i].each do |k|
+      #     if PrimeChecker.prime?("#")
+      #   end
+        prime_sets[i] << primes[j]
+      # end
+    end
+    break if prime_sets[i].size == 4
+  end
+end
+
+p prime_sets
