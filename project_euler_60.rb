@@ -35,21 +35,18 @@ class PrimeChecker
 end
 
 primes = EratosthenesSieve.new(1000).get_primes
-prime_sets = []
+prime_sets = {}
 
+# finding array of fitting primes for each known prime { prime => [primes] }
 primes.each.with_index do |checking, i|
-  prime_sets[i] = [checking]
+  prime_sets[checking] = []
   (i + 1..primes.size - 1).each do |j|
     if PrimeChecker.prime?("#{checking}#{primes[j]}".to_i) && PrimeChecker.prime?("#{primes[j]}#{checking}".to_i)
-      # if !prime_sets[i].empty?
-      #   prime_sets[i].each do |k|
-      #     if PrimeChecker.prime?("#")
-      #   end
-        prime_sets[i] << primes[j]
-      # end
+      prime_sets[checking] << primes[j]
     end
-    break if prime_sets[i].size == 4
   end
 end
 
-p prime_sets
+prime_sets.each do |k, v|
+  puts "#{k} => #{v}"
+end
