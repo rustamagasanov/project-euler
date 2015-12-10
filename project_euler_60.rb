@@ -44,11 +44,18 @@ def search_prime_groups(data)
     candidates.each do |candidate|
       res[primes + [candidate]] = []
       if data.first[0].size > 1
+        key = data.select { |k, v| k == primes[1..-1] + [candidate] }.first
+        if key.nil?
+          next
+        else
+          d = key[1]
+        end
       else
-        data[candidate].each do |checking|
-          if PrimeChecker.prime?("#{checking}#{candidate}".to_i) && PrimeChecker.prime?("#{candidate}#{checking}".to_i)
-            res[primes + [candidate]] << checking
-          end
+        d = data[[candidate]]
+      end
+      d.each do |checking|
+        if PrimeChecker.prime?("#{checking}#{primes[0]}".to_i) && PrimeChecker.prime?("#{primes[0]}#{checking}".to_i)
+          res[primes + [candidate]] << checking
         end
       end
     end
@@ -56,7 +63,7 @@ def search_prime_groups(data)
   res
 end
 
-primes = EratosthenesSieve.new(1000).get_primes
+primes = EratosthenesSieve.new(10_000).get_primes
 
 initial_data = {}
 # finding relation of fitting primes for 1 prime { [prime] => [primes] }
@@ -69,5 +76,7 @@ primes.each.with_index do |checking, i|
   end
 end
 
-p search_prime_groups(initial_data).reject { |k,v| v == [] }
+primes_depth_2 = search_prime_groups(initial_data)
+primes_depth_3 = search_prime_groups(primes_depth_2)
+p search_prime_groups(primes_depth_3).reject { |k,v| v == [] }
 
