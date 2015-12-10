@@ -34,19 +34,40 @@ class PrimeChecker
   end
 end
 
-primes = EratosthenesSieve.new(1000).get_primes
-prime_sets = {}
+# data = {
+#   [prime, prime, prime] => [candidate, candidate, candidate]
+#   ...
+# }
+def search_prime_groups(data)
+  res = {}
+  data.each do |primes, candidates|
+    candidates.each do |candidate|
+      res[primes + [candidate]] = []
+      if data.first[0].size > 1
+      else
+        data[candidate].each do |checking|
+          if PrimeChecker.prime?("#{checking}#{candidate}".to_i) && PrimeChecker.prime?("#{candidate}#{checking}".to_i)
+            res[primes + [candidate]] << checking
+          end
+        end
+      end
+    end
+  end
+  res
+end
 
-# finding array of fitting primes for each known prime { prime => [primes] }
+primes = EratosthenesSieve.new(1000).get_primes
+
+initial_data = {}
+# finding relation of fitting primes for 1 prime { [prime] => [primes] }
 primes.each.with_index do |checking, i|
-  prime_sets[checking] = []
+  initial_data[[checking]] = []
   (i + 1..primes.size - 1).each do |j|
     if PrimeChecker.prime?("#{checking}#{primes[j]}".to_i) && PrimeChecker.prime?("#{primes[j]}#{checking}".to_i)
-      prime_sets[checking] << primes[j]
+      initial_data[[checking]] << primes[j]
     end
   end
 end
 
-prime_sets.each do |k, v|
-  puts "#{k} => #{v}"
-end
+p search_prime_groups(initial_data).reject { |k,v| v == [] }
+
