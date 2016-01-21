@@ -42,3 +42,13 @@ module PolygonalNumbers
     n * (3 * n - 2)
   end
 end
+
+triangles   = []
+squares     = []
+pentagonals = []
+
+(1000..9999).each do |n|
+  triangles   << PolygonalNumbers.triangle(n)
+  squares     << PolygonalNumbers.square(n)
+  pentagonals << PolygonalNumbers.pentagonal(n)
+end
