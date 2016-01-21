@@ -14,3 +14,31 @@
 # Each polygonal type: triangle (P3,127=8128), square (P4,91=8281), and pentagonal (P5,44=2882), is represented by a different number in the set.
 # This is the only set of 4-digit numbers with this property.
 # Find the sum of the only ordered set of six cyclic 4-digit numbers for which each polygonal type: triangle, square, pentagonal, hexagonal, heptagonal, and octagonal, is represented by a different number in the set.
+
+module PolygonalNumbers
+  extend self
+
+  def triangle(n)
+    n * (n + 1) / 2
+  end
+
+  def square(n)
+    n**2
+  end
+
+  def pentagonal(n)
+    n * (3 * n - 1) / 2
+  end
+
+  def hexagonal(n)
+    n * (2 * n - 1)
+  end
+
+  def heptagonal(n)
+    n * (5 * n - 3) / 2
+  end
+
+  def octagonal(n)
+    n * (3 * n - 2)
+  end
+end
