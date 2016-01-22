@@ -52,3 +52,19 @@ pentagonals = []
   squares     << PolygonalNumbers.square(n)
   pentagonals << PolygonalNumbers.pentagonal(n)
 end
+
+def cycle?(a, b)
+  a.to_s[0..1] == b.to_s[2..3]
+end
+
+tri_sq_cycles = []
+
+triangles.each do |triangle|
+  squares.each do |square|
+    if cycle?(triangle, square)
+      tri_sq_cycles << [triangle, square]
+    end
+  end
+end
+
+p tri_sq_cycles
