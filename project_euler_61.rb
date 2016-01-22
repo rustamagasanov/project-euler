@@ -47,11 +47,17 @@ triangles   = []
 squares     = []
 pentagonals = []
 
-(1000..9999).each do |n|
-  triangles   << PolygonalNumbers.triangle(n)
-  squares     << PolygonalNumbers.square(n)
-  pentagonals << PolygonalNumbers.pentagonal(n)
+loop.with_index do |_, i|
+  triangle = PolygonalNumbers.triangle(i)
+  if Math.log10(triangle).to_i + 1 > 4 # efficient fixnum length determination
+    break
+  else
+    triangles << triangle
+  end
 end
+
+# squares     << PolygonalNumbers.square(n)
+# pentagonals << PolygonalNumbers.pentagonal(n)
 
 def cycle?(a, b)
   (a / 100).to_s == b.to_s[2..3]
