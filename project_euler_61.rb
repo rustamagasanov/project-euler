@@ -49,15 +49,30 @@ pentagonals = []
 
 loop.with_index do |_, i|
   triangle = PolygonalNumbers.triangle(i)
-  if Math.log10(triangle).to_i + 1 > 4 # efficient fixnum length determination
+  if triangle.to_s.length > 4
     break
-  else
+  elsif triangle.to_s.length == 4
     triangles << triangle
   end
 end
 
-# squares     << PolygonalNumbers.square(n)
-# pentagonals << PolygonalNumbers.pentagonal(n)
+loop.with_index do |_, i|
+  square = PolygonalNumbers.square(i)
+  if square.to_s.length > 4
+    break
+  elsif square.to_s.length == 4
+    squares << square
+  end
+end
+
+loop.with_index do |_, i|
+  pentagonal = PolygonalNumbers.pentagonal(i)
+  if pentagonal.to_s.length > 4
+    break
+  elsif pentagonal.to_s.length == 4
+    pentagonals << pentagonal
+  end
+end
 
 def cycle?(a, b)
   (a / 100).to_s == b.to_s[2..3]
@@ -65,18 +80,16 @@ end
 
 tri_sq_cycles = []
 
-require 'benchmark'
+puts triangles.size
+puts squares.size
+puts pentagonals.size
 
-Benchmark.bm do |x|
-  x.report do
-    triangles[0..2000].each do |triangle|
-      squares[0..2000].each do |square|
-        if cycle?(triangle, square)
-          tri_sq_cycles << [triangle, square]
-        end
-      end
+triangles.each do |triangle|
+  squares.each do |square|
+    if cycle?(triangle, square)
+      tri_sq_cycles << [triangle, square]
     end
   end
 end
 
-# p tri_sq_cycles
+p tri_sq_cycles
