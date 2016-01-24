@@ -74,22 +74,29 @@ loop.with_index do |_, i|
   end
 end
 
-def cycle?(a, b)
-  (a / 100).to_s == b.to_s[2..3]
+# def cycle?(a, b)
+#   (a / 100).to_s == b.to_s[2..3]
+# end
+
+def cycle?(arr)
+  permutations = arr.permutation(arr.size).to_a
+  permutations.each do |permutation|
+    if permutation[0].to_s[2..3] == permutation[1].to_s[0..1] &&
+      permutation[1].to_s[2..3] == permutation[2].to_s[0..1] &&
+      permutation[2].to_s[2..3] == permutation[0].to_s[0..1]
+      return true
+    end
+  end
+  false
 end
-
-tri_sq_cycles = []
-
-puts triangles.size
-puts squares.size
-puts pentagonals.size
 
 triangles.each do |triangle|
   squares.each do |square|
-    if cycle?(triangle, square)
-      tri_sq_cycles << [triangle, square]
+    pentagonals.each do |pentagonal|
+      if cycle?([triangle, square, pentagonal])
+        puts "#{triangle} #{square} #{pentagonal}"
+      end
     end
   end
 end
 
-p tri_sq_cycles
