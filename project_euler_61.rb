@@ -74,17 +74,14 @@ loop.with_index do |_, i|
   end
 end
 
-# def cycle?(a, b)
-#   (a / 100).to_s == b.to_s[2..3]
-# end
-
 def cycle?(arr)
   permutations = arr.permutation(arr.size).to_a
   permutations.each do |permutation|
-    if permutation[0].to_s[2..3] == permutation[1].to_s[0..1] &&
-      permutation[1].to_s[2..3] == permutation[2].to_s[0..1] &&
-      permutation[2].to_s[2..3] == permutation[0].to_s[0..1]
-      return true
+    (0..permutation.size - 1).each do |i|
+      if permutation[i].to_s[2..3] != permutation[i + 1 == permutation.size ? 0 : i + 1].to_s[0..1]
+        break
+      end
+      return true if i == permutation.size - 1
     end
   end
   false
