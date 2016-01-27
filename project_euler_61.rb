@@ -46,6 +46,9 @@ end
 triangles   = []
 squares     = []
 pentagonals = []
+hexagonals  = []
+heptagonals = []
+octagonals  = []
 
 loop.with_index do |_, i|
   triangle = PolygonalNumbers.triangle(i)
@@ -74,6 +77,33 @@ loop.with_index do |_, i|
   end
 end
 
+loop.with_index do |_, i|
+  hexagonal = PolygonalNumbers.hexagonal(i)
+  if hexagonal.to_s.length > 4
+    break
+  elsif hexagonal.to_s.length == 4
+    hexagonals << hexagonal
+  end
+end
+
+loop.with_index do |_, i|
+  heptagonal = PolygonalNumbers.heptagonal(i)
+  if heptagonal.to_s.length > 4
+    break
+  elsif heptagonal.to_s.length == 4
+    heptagonals << heptagonal
+  end
+end
+
+loop.with_index do |_, i|
+  octagonal = PolygonalNumbers.octagonal(i)
+  if octagonal.to_s.length > 4
+    break
+  elsif octagonal.to_s.length == 4
+    octagonals << octagonal
+  end
+end
+
 def cycle?(arr)
   permutations = arr.permutation(arr.size).to_a
   permutations.each do |permutation|
@@ -87,11 +117,22 @@ def cycle?(arr)
   false
 end
 
-triangles.each do |triangle|
-  squares.each do |square|
-    pentagonals.each do |pentagonal|
-      if cycle?([triangle, square, pentagonal])
-        puts "#{triangle} #{square} #{pentagonal}"
+catch(:done) do
+  triangles.each do |triangle|
+    squares.each do |square|
+      pentagonals.each do |pentagonal|
+        hexagonals.each do |hexagonal|
+          heptagonals.each do |heptagonal|
+            octagonals.each do |octagonal|
+              arr = [triangle, square, pentagonal, hexagonal, heptagonal, octagonal]
+              if cycle?(arr)
+                p arr
+                p arr.inject(:+)
+                throw(:done)
+              end
+            end
+          end
+        end
       end
     end
   end
