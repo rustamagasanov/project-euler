@@ -56,63 +56,44 @@ def polygonal_numbers(func)
   numbers
 end
 
-triangles   = polygonal_numbers('triangle')
-squares     = polygonal_numbers('square')
-pentagonals = polygonal_numbers('pentagonal')
-hexagonals  = polygonal_numbers('hexagonal')
-heptagonals = polygonal_numbers('heptagonal')
-octagonals  = polygonal_numbers('octagonal')
+numbers = {}
+numbers[:triangles]   = polygonal_numbers('triangle')
+numbers[:squares]     = polygonal_numbers('square')
+numbers[:pentagonals] = polygonal_numbers('pentagonal')
+numbers[:hexagonals]  = polygonal_numbers('hexagonal')
+numbers[:heptagonals] = polygonal_numbers('heptagonal')
+numbers[:octagonals]  = polygonal_numbers('octagonal')
 
-def search_in(set, number)
-  res = []
-  set.each do |el|
-    if number.to_s[2..3] == el.to_s[0..1]
-      res << [number, el]
+catch(:done) do
+  [:triangles, :squares, :pentagonals, :hexagonals, :heptagonals, :octagonals].permutation.each do |permutation|
+    numbers[permutation[0]].each do |n0|
+      numbers[permutation[1]].each do |n1|
+        if n0.to_s[2..3] == n1.to_s[0..1]
+          numbers[permutation[2]].each do |n2|
+            if n1.to_s[2..3] == n2.to_s[0..1]
+              numbers[permutation[3]].each do |n3|
+                if n2.to_s[2..3] == n3.to_s[0..1]
+                  numbers[permutation[4]].each do |n4|
+                    if n3.to_s[2..3] == n4.to_s[0..1]
+                      numbers[permutation[4]].each do |n5|
+                        if n4.to_s[2..3] == n5.to_s[0..1]
+                          if n5.to_s[2..3] == n0.to_s[0..1]
+                            p permutation
+                            puts "#{n0} #{n1} #{n2} #{n3} #{n4} #{n5}"
+                            puts [n0, n1, n2, n3, n4, n5].reduce(:+)
+                            throw(:done)
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
     end
   end
-  res
 end
-
-triangles.each do |triangle|
-  p search_in(pentagonals, triangle)
-  # pentagonals.each do |pentagonal|
-  #   if triangle.to_s[2..3] == pentagonal.to_s[0..1]
-  #     p "#{triangle} #{pentagonal}"
-  #   end
-  # end
-end
-
-# def cycle?(arr)
-#   permutations = arr.permutation(arr.size).to_a
-#   permutations.each do |permutation|
-#     (0..permutation.size - 1).each do |i|
-#       if permutation[i].to_s[2..3] != permutation[i + 1 == permutation.size ? 0 : i + 1].to_s[0..1]
-#         break
-#       end
-#       return true if i == permutation.size - 1
-#     end
-#   end
-#   false
-# end
-#
-# catch(:done) do
-#   triangles.each do |triangle|
-#     squares.each do |square|
-#       pentagonals.each do |pentagonal|
-#         hexagonals.each do |hexagonal|
-#           heptagonals.each do |heptagonal|
-#             octagonals.each do |octagonal|
-#               arr = [triangle, square, pentagonal, hexagonal, heptagonal, octagonal]
-#               if cycle?(arr)
-#                 p arr
-#                 p arr.inject(:+)
-#                 throw(:done)
-#               end
-#             end
-#           end
-#         end
-#       end
-#     end
-#   end
-# end
 
