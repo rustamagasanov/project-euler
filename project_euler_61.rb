@@ -75,7 +75,7 @@ catch(:done) do
                 if n2.to_s[2..3] == n3.to_s[0..1]
                   numbers[permutation[4]].each do |n4|
                     if n3.to_s[2..3] == n4.to_s[0..1]
-                      numbers[permutation[4]].each do |n5|
+                      numbers[permutation[5]].each do |n5|
                         if n4.to_s[2..3] == n5.to_s[0..1]
                           if n5.to_s[2..3] == n0.to_s[0..1]
                             p permutation
