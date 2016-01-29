@@ -43,98 +43,76 @@ module PolygonalNumbers
   end
 end
 
-triangles   = []
-squares     = []
-pentagonals = []
-hexagonals  = []
-heptagonals = []
-octagonals  = []
-
-loop.with_index do |_, i|
-  triangle = PolygonalNumbers.triangle(i)
-  if triangle.to_s.length > 4
-    break
-  elsif triangle.to_s.length == 4
-    triangles << triangle
-  end
-end
-
-loop.with_index do |_, i|
-  square = PolygonalNumbers.square(i)
-  if square.to_s.length > 4
-    break
-  elsif square.to_s.length == 4
-    squares << square
-  end
-end
-
-loop.with_index do |_, i|
-  pentagonal = PolygonalNumbers.pentagonal(i)
-  if pentagonal.to_s.length > 4
-    break
-  elsif pentagonal.to_s.length == 4
-    pentagonals << pentagonal
-  end
-end
-
-loop.with_index do |_, i|
-  hexagonal = PolygonalNumbers.hexagonal(i)
-  if hexagonal.to_s.length > 4
-    break
-  elsif hexagonal.to_s.length == 4
-    hexagonals << hexagonal
-  end
-end
-
-loop.with_index do |_, i|
-  heptagonal = PolygonalNumbers.heptagonal(i)
-  if heptagonal.to_s.length > 4
-    break
-  elsif heptagonal.to_s.length == 4
-    heptagonals << heptagonal
-  end
-end
-
-loop.with_index do |_, i|
-  octagonal = PolygonalNumbers.octagonal(i)
-  if octagonal.to_s.length > 4
-    break
-  elsif octagonal.to_s.length == 4
-    octagonals << octagonal
-  end
-end
-
-def cycle?(arr)
-  permutations = arr.permutation(arr.size).to_a
-  permutations.each do |permutation|
-    (0..permutation.size - 1).each do |i|
-      if permutation[i].to_s[2..3] != permutation[i + 1 == permutation.size ? 0 : i + 1].to_s[0..1]
-        break
-      end
-      return true if i == permutation.size - 1
+def polygonal_numbers(func)
+  numbers = []
+  loop.with_index do |_, i|
+    number = PolygonalNumbers.send(func, i)
+    if number.to_s.length > 4
+      break
+    elsif number.to_s.length == 4
+      numbers << number
     end
   end
-  false
+  numbers
 end
 
-catch(:done) do
-  triangles.each do |triangle|
-    squares.each do |square|
-      pentagonals.each do |pentagonal|
-        hexagonals.each do |hexagonal|
-          heptagonals.each do |heptagonal|
-            octagonals.each do |octagonal|
-              arr = [triangle, square, pentagonal, hexagonal, heptagonal, octagonal]
-              if cycle?(arr)
-                p arr
-                p arr.inject(:+)
-                throw(:done)
-              end
-            end
-          end
-        end
-      end
+triangles   = polygonal_numbers('triangle')
+squares     = polygonal_numbers('square')
+pentagonals = polygonal_numbers('pentagonal')
+hexagonals  = polygonal_numbers('hexagonal')
+heptagonals = polygonal_numbers('heptagonal')
+octagonals  = polygonal_numbers('octagonal')
+
+def search_in(set, number)
+  res = []
+  set.each do |el|
+    if number.to_s[2..3] == el.to_s[0..1]
+      res << [number, el]
     end
   end
+  res
 end
+
+triangles.each do |triangle|
+  p search_in(pentagonals, triangle)
+  # pentagonals.each do |pentagonal|
+  #   if triangle.to_s[2..3] == pentagonal.to_s[0..1]
+  #     p "#{triangle} #{pentagonal}"
+  #   end
+  # end
+end
+
+# def cycle?(arr)
+#   permutations = arr.permutation(arr.size).to_a
+#   permutations.each do |permutation|
+#     (0..permutation.size - 1).each do |i|
+#       if permutation[i].to_s[2..3] != permutation[i + 1 == permutation.size ? 0 : i + 1].to_s[0..1]
+#         break
+#       end
+#       return true if i == permutation.size - 1
+#     end
+#   end
+#   false
+# end
+#
+# catch(:done) do
+#   triangles.each do |triangle|
+#     squares.each do |square|
+#       pentagonals.each do |pentagonal|
+#         hexagonals.each do |hexagonal|
+#           heptagonals.each do |heptagonal|
+#             octagonals.each do |octagonal|
+#               arr = [triangle, square, pentagonal, hexagonal, heptagonal, octagonal]
+#               if cycle?(arr)
+#                 p arr
+#                 p arr.inject(:+)
+#                 throw(:done)
+#               end
+#             end
+#           end
+#         end
+#       end
+#     end
+#   end
+# end
 
