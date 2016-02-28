@@ -14,4 +14,4 @@ def prime?(num)
   true
 end
 
-puts (2..Math.sqrt(number).to_i).select { |n| number % n == 0 && prime?(n) }.max
+puts (Math.sqrt(number).to_i).downto(2) { |n| break n if number % n == 0 && prime?(n) }
