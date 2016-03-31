@@ -85,36 +85,36 @@ end
   p calculate(permutation, permutation, numbers)
 end
 
-# catch(:done) do
-#   [:triangles, :squares, :pentagonals, :hexagonals, :heptagonals, :octagonals].permutation.each do |permutation|
-#     numbers[permutation[0]].each do |n0|
-#       numbers[permutation[1]].each do |n1|
-#         if n0.to_s[2..3] == n1.to_s[0..1]
-#           numbers[permutation[2]].each do |n2|
-#             if n1.to_s[2..3] == n2.to_s[0..1]
-#               numbers[permutation[3]].each do |n3|
-#                 if n2.to_s[2..3] == n3.to_s[0..1]
-#                   numbers[permutation[4]].each do |n4|
-#                     if n3.to_s[2..3] == n4.to_s[0..1]
-#                       numbers[permutation[5]].each do |n5|
-#                         if n4.to_s[2..3] == n5.to_s[0..1]
-#                           if n5.to_s[2..3] == n0.to_s[0..1]
-#                             p permutation
-#                             puts "#{n0} #{n1} #{n2} #{n3} #{n4} #{n5}"
-#                             puts [n0, n1, n2, n3, n4, n5].reduce(:+)
-#                             throw(:done)
-#                           end
-#                         end
-#                       end
-#                     end
-#                   end
-#                 end
-#               end
-#             end
-#           end
-#         end
-#       end
-#     end
-#   end
-# end
-#
+catch(:done) do
+  [:triangles, :squares, :pentagonals, :hexagonals, :heptagonals, :octagonals].permutation.each do |permutation|
+    numbers[permutation[0]].each do |n0|
+      numbers[permutation[1]].each do |n1|
+        if n0.to_s[2..3] == n1.to_s[0..1]
+          numbers[permutation[2]].each do |n2|
+            if n1.to_s[2..3] == n2.to_s[0..1]
+              numbers[permutation[3]].each do |n3|
+                if n2.to_s[2..3] == n3.to_s[0..1]
+                  numbers[permutation[4]].each do |n4|
+                    if n3.to_s[2..3] == n4.to_s[0..1]
+                      numbers[permutation[5]].each do |n5|
+                        if n4.to_s[2..3] == n5.to_s[0..1]
+                          if n5.to_s[2..3] == n0.to_s[0..1]
+                            p permutation
+                            puts "#{n0} #{n1} #{n2} #{n3} #{n4} #{n5}"
+                            puts [n0, n1, n2, n3, n4, n5].reduce(:+)
+                            throw(:done)
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
