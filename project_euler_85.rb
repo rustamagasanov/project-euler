@@ -4,22 +4,15 @@
 #
 # Although there exists no rectangular grid that contains exactly two million rectangles, find the area of the grid with the nearest solution.
 
-a = 3
+a = 8
 b = 2
 
 res = []
 
-# 1x1
-res << a / 1 * b
-
-# 2x1
-res << a / 2 * b
-
-# 3x1
-res << a / 3 * b
-
 # horizontal piece widening (1x1, 2x1, 3x1 etc)
-# (1..a).each do |i|
-#   count << a / i * b
-# end
+(1..a).each do |i|
+  res << (a - i + 1) * 2
+end
+
+p res
 
